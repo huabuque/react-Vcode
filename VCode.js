@@ -11,39 +11,42 @@ class VCode extends Component {
     }
   }
 
-  initState (){
+  initState(){
     return {
-      data: this.asciiToString(109,48,4),
-      rotate: this.asciiToString(75,-75,4),
-      fz: this.asciiToString(8,20,4),
+      data: this.getRandom(109,48,4),
+      rotate: this.getRandom(75,-75,4),
+      fz: this.getRandom(8,20,4),
+      color: [this.getRandom(100,255,3),this.getRandom(100,255,4),this.getRandom(100,255,3),this.getRandom(100,255,3)]
     }
   }
 
-  asciiToString (max, min, num) {
+  getRandom(max, min, num) {
     const asciiNum = ~~(Math.random()*(max-min+1)+min)
     if(!Boolean(num)){
       return asciiNum
     }
     const arr = []
     for(let i = 0; i < num; i++){
-      arr.push(this.asciiToString(max, min))
+      arr.push(this.getRandom(max, min))
     }
     return arr
   }
 
+  canvas() {
+    
+  }
+
   render() {
-    const style = {
-      float: 'left',
-      marginLeft: '5px'
-    }
+    const { rotate, fz, color } = this.state
     return (
       <div className='vcodewrap' >
         {this.state.data.map((v,i) => 
           <div 
             className='itemStr'
             style={{
-              transform:`rotate(${this.state.rotate[i]}deg)`,
-              fontSize: `${this.state.fz[i]}px`
+              transform:`rotate(${rotate[i]}deg)`,
+              fontSize: `${fz[i]}px`,
+              color: `rgb(${color[i].toString()})`
             }}
             onMouseEnter={() => this.setState({refresh:true})}
           >
